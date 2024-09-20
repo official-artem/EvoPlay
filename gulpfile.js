@@ -1,6 +1,6 @@
 import gulp from 'gulp';
-import sass from 'gulp-sass';
-import dartSass from 'sass';
+import * as dartSass from 'sass';
+import gulpSass from 'gulp-sass';
 import cleanCSS from 'gulp-clean-css';
 import htmlmin from 'gulp-htmlmin';
 import sourcemaps from 'gulp-sourcemaps';
@@ -9,7 +9,9 @@ import imagemin from 'gulp-imagemin';
 import autoprefixer from 'gulp-autoprefixer';
 import { deleteAsync } from 'del';
 import concat from 'gulp-concat';
-const sassCompiler = sass(dartSass);
+import ghPages from 'gulp-gh-pages';
+
+const sass = gulpSass(dartSass);
 const bs = browserSync.create();
 
 // Clean dist folder
@@ -17,14 +19,23 @@ async function clean() {
 	await deleteAsync(['dist']);
 }
 
+// Deploy to GitHub Pages
+function deploy() {
+	return gulp.src("./dist/**/*")
+		.pipe(ghPages({
+			branch: 'gh-pages',
+			remoteUrl: 'https://github.com/official-artem/evoplay.git',
+		}));
+}
+
 // Compile SCSS to CSS, add prefixes, minify, and create sourcemaps
 function styles() {
 	return gulp.src(['src/style.scss'])
 		.pipe(sourcemaps.init())
-		.pipe(sassCompiler({
+		.pipe(sass({
 			includePaths: ['src/styles'],
 			outputStyle: 'compressed',
-		}).on('error', sassCompiler.logError))
+		}).on('error', sass.logError))
 		.pipe(autoprefixer())
 		.pipe(cleanCSS())
 		.pipe(concat('style.css'))
@@ -73,5 +84,5 @@ function serve(done) {
 const build = gulp.series(clean, gulp.parallel(styles, html, images, assets));
 const dev = gulp.series(build, serve);
 
-export { clean, styles, html, images, assets, build, dev };
+export { clean, styles, html, images, assets, build, dev, deploy };
 export default dev;

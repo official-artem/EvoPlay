@@ -7,7 +7,8 @@
 	"scripts": {
 		"start": "gulp",
 		"build": "gulp build",
-		"clean": "gulp clean"
+		"clean": "gulp clean",
+		"deploy": "gulp deploy"
 	},
 	"keywords": [],
 	"author": "",
@@ -19,6 +20,7 @@
 		"gulp-autoprefixer": "^9.0.0",
 		"gulp-clean-css": "^4.3.0",
 		"gulp-concat": "^2.6.1",
+		"gulp-gh-pages": "^0.5.4",
 		"gulp-htmlmin": "^5.0.0",
 		"gulp-imagemin": "^7.1.0",
 		"gulp-sass": "^5.1.0",
