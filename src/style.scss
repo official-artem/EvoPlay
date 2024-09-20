@@ -186,8 +186,7 @@ body {
 	padding-inline: 15px;
 
 	@include desktop-min {
-		width: 540px;
-		height: 470px;
+		height: 100%;
 	}
 }
 
