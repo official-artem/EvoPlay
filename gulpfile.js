@@ -58,10 +58,6 @@ function images() {
 		.src('src/assets/images/**/*', { encoding: false })
 		.pipe(imagemin())
 		.pipe(gulp.dest('dist/assets/images'))
-		.pipe(gulp.dest(function (file) {
-			console.log('Processing image:', file.path);
-			return 'dist/assets/images';
-		}))
 		.pipe(bs.stream());
 }
 
