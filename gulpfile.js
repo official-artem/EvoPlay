@@ -20,7 +20,7 @@ async function clean() {
 }
 
 // Deploy to GitHub Pages
-function deploy() {
+function deployGitHub() {
 	return gulp.src("./dist/**/*")
 		.pipe(ghPages({
 			branch: 'gh-pages',
@@ -55,9 +55,13 @@ function html() {
 // Optimize and minify images
 function images() {
 	return gulp
-		.src('src/assets/images/**/*', { encoding: false})
+		.src('src/assets/images/**/*', { encoding: false })
 		.pipe(imagemin())
 		.pipe(gulp.dest('dist/assets/images'))
+		.pipe(gulp.dest(function (file) {
+			console.log('Processing image:', file.path);
+			return 'dist/assets/images';
+		}))
 		.pipe(bs.stream());
 }
 
@@ -83,6 +87,8 @@ function serve(done) {
 
 const build = gulp.series(clean, gulp.parallel(styles, html, images, assets));
 const dev = gulp.series(build, serve);
+
+const deploy = gulp.series(build, deployGitHub);
 
 export { clean, styles, html, images, assets, build, dev, deploy };
 export default dev;

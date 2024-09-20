@@ -624,6 +624,9 @@ body {
 }
 
 .contact-us {
+	padding-top: 139px;
+	padding-bottom: 284px;
+
 	@include desktop-min {
 		padding-inline: 90px;
 		display: flex;
@@ -637,8 +640,7 @@ body {
 		}
 	}
 
-	padding-top: 139px;
-	padding-bottom: 284px;
+
 
 	&__title {
 		font-size: 28px;
